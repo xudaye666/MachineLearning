@@ -89,8 +89,7 @@ seed = 7
 scoring = 'neg_mean_squared_error'
 
 # 评估算法 - baseline
-models = {}
-models['LR'] = LinearRegression()
+models = {'LR': LinearRegression()}
 models['LASSO'] = Lasso()
 models['EN'] = ElasticNet()
 models['KNN'] = KNeighborsRegressor()
@@ -112,8 +111,12 @@ ax.set_xticklabels(models.keys())
 pyplot.show()
 
 # 评估算法 - 正态化数据
-pipelines = {}
-pipelines['ScalerLR'] = Pipeline([('Scaler', StandardScaler()), ('LR', LinearRegression())])
+pipelines = {
+    'ScalerLR': Pipeline(
+        [('Scaler', StandardScaler()), ('LR', LinearRegression())]
+    )
+}
+
 pipelines['ScalerLASSO'] = Pipeline([('Scaler', StandardScaler()), ('LASSO', Lasso())])
 pipelines['ScalerEN'] = Pipeline([('Scaler', StandardScaler()), ('EN', ElasticNet())])
 pipelines['ScalerKNN'] = Pipeline([('Scaler', StandardScaler()), ('KNN', KNeighborsRegressor())])
@@ -142,7 +145,7 @@ kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=rescaledX, y=Y_train)
 
-print('最优：%s 使用%s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优：{grid_result.best_score_} 使用{grid_result.best_params_}')
 cv_results = zip(grid_result.cv_results_['mean_test_score'],
                  grid_result.cv_results_['std_test_score'],
                  grid_result.cv_results_['params'])
@@ -150,8 +153,12 @@ for mean, std, param in cv_results:
     print('%f (%f) with %r' % (mean, std, param))
 
 # 集成算法
-ensembles = {}
-ensembles['ScaledAB'] = Pipeline([('Scaler', StandardScaler()), ('AB', AdaBoostRegressor())])
+ensembles = {
+    'ScaledAB': Pipeline(
+        [('Scaler', StandardScaler()), ('AB', AdaBoostRegressor())]
+    )
+}
+
 ensembles['ScaledAB-KNN'] = Pipeline([('Scaler', StandardScaler()),
                                        ('ABKNN', AdaBoostRegressor(base_estimator=KNeighborsRegressor(n_neighbors=3)))])
 ensembles['ScaledAB-LR'] = Pipeline([('Scaler', StandardScaler()), ('ABLR', AdaBoostRegressor(LinearRegression()))])
@@ -182,7 +189,7 @@ model = GradientBoostingRegressor()
 kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=rescaledX, y=Y_train)
-print('最优：%s 使用%s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优：{grid_result.best_score_} 使用{grid_result.best_params_}')
 
 # 集成算法ET - 调参
 scaler = StandardScaler().fit(X_train)
@@ -192,7 +199,7 @@ model = ExtraTreesRegressor()
 kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=rescaledX, y=Y_train)
-print('最优：%s 使用%s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优：{grid_result.best_score_} 使用{grid_result.best_params_}')
 
 #训练模型
 scaler = StandardScaler().fit(X_train)

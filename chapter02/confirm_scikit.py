@@ -1,2 +1,2 @@
 import sklearn
-print('sklearn:{}'.format(sklearn.__version__))
+print(f'sklearn:{sklearn.__version__}')

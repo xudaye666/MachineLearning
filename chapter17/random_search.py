@@ -19,4 +19,4 @@ grid = RandomizedSearchCV(estimator=model, param_distributions=param_grid, n_ite
 grid.fit(X, Y)
 # 搜索结果
 print('最高得分：%.3f' % grid.best_score_)
-print('最优参数：%s' % grid.best_estimator_.alpha)
+print(f'最优参数：{grid.best_estimator_.alpha}')

@@ -4,10 +4,10 @@ print('A value: %.2f' % mydict['a'])
 # 增加字典元素
 mydict['a'] = 523
 print('A value: %d' % mydict['a'])
-print('keys: %s' % mydict.keys())
-print('values: %s' % mydict.values())
-for key in mydict:
-    print(mydict[key])
+print(f'keys: {mydict.keys()}')
+print(f'values: {mydict.values()}')
+for value in mydict.values():
+    print(value)
 
 
 mydict = {'a': 6.18, 'b': 'str', 'c': True}

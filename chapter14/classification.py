@@ -19,8 +19,7 @@ Y = array[:, 8]
 num_folds = 10
 seed = 7
 kfold = KFold(n_splits=num_folds, random_state=seed)
-models = {}
-models['LR'] = LogisticRegression()
+models = {'LR': LogisticRegression()}
 models['LDA'] = LinearDiscriminantAnalysis()
 models['KNN'] = KNeighborsClassifier()
 models['CART'] = DecisionTreeClassifier()

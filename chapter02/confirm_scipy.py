@@ -3,7 +3,7 @@ import numpy
 import matplotlib
 import pandas
 
-print('scipy:{}'.format(scipy.__version__))
-print('numpy:{}'.format(numpy.__version__))
-print('matplotlib:{}'.format(matplotlib.__version__))
-print('pandas:{}'.format(pandas.__version__))
+print(f'scipy:{scipy.__version__}')
+print(f'numpy:{numpy.__version__}')
+print(f'matplotlib:{matplotlib.__version__}')
+print(f'pandas:{pandas.__version__}')

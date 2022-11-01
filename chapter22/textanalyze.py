@@ -66,8 +66,7 @@ scoring = 'accuracy'
 
 # 3）评估算法
 # 生成算法模型
-models = {}
-models['LR'] = LogisticRegression()
+models = {'LR': LogisticRegression()}
 models['SVM'] = SVC()
 models['CART'] = DecisionTreeClassifier()
 models['MNB'] = MultinomialNB()
@@ -91,26 +90,23 @@ plt.show()
 
 # 4）算法调参
 # 调参LR
-param_grid = {}
-param_grid['C'] = [0.1, 5, 13, 15]
+param_grid = {'C': [0.1, 5, 13, 15]}
 model = LogisticRegression()
 kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=X_train_counts_tf, y=dataset_train.target)
-print('最优 : %s 使用 %s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优 : {grid_result.best_score_} 使用 {grid_result.best_params_}')
 
 # 调参MNB
-param_grid = {}
-param_grid['alpha'] = [0.001, 0.01, 0.1, 1.5]
+param_grid = {'alpha': [0.001, 0.01, 0.1, 1.5]}
 model = MultinomialNB()
 kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=X_train_counts_tf, y=dataset_train.target)
-print('最优 : %s 使用 %s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优 : {grid_result.best_score_} 使用 {grid_result.best_params_}')
 
 # 5）集成算法
-ensembles = {}
-ensembles['RF'] = RandomForestClassifier()
+ensembles = {'RF': RandomForestClassifier()}
 ensembles['AB'] = AdaBoostClassifier()
 # 比较集成算法
 results = []
@@ -129,13 +125,12 @@ ax.set_xticklabels(ensembles.keys())
 plt.show()
 
 # 调参RF
-param_grid = {}
-param_grid['n_estimators'] = [10, 100, 150, 200]
+param_grid = {'n_estimators': [10, 100, 150, 200]}
 model = RandomForestClassifier()
 kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=X_train_counts_tf, y=dataset_train.target)
-print('最优 : %s 使用 %s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优 : {grid_result.best_score_} 使用 {grid_result.best_params_}')
 
 # 6）生成模型
 model = LogisticRegression(C=13)

@@ -75,8 +75,7 @@ seed = 7
 scoring = 'accuracy'
 
 # 评估算法 - 原始数据
-models = {}
-models['LR'] = LogisticRegression()
+models = {'LR': LogisticRegression()}
 models['LDA'] = LinearDiscriminantAnalysis()
 models['KNN'] = KNeighborsClassifier()
 models['CART'] = DecisionTreeClassifier()
@@ -98,8 +97,12 @@ ax.set_xticklabels(models.keys())
 pyplot.show()
 
 # 评估算法 - 正态化数据
-pipelines = {}
-pipelines['ScalerLR'] = Pipeline([('Scaler', StandardScaler()), ('LR', LogisticRegression())])
+pipelines = {
+    'ScalerLR': Pipeline(
+        [('Scaler', StandardScaler()), ('LR', LogisticRegression())]
+    )
+}
+
 pipelines['ScalerLDA'] = Pipeline([('Scaler', StandardScaler()), ('LDA', LinearDiscriminantAnalysis())])
 pipelines['ScalerKNN'] = Pipeline([('Scaler', StandardScaler()), ('KNN', KNeighborsClassifier())])
 pipelines['ScalerCART'] = Pipeline([('Scaler', StandardScaler()), ('CART', DecisionTreeClassifier())])
@@ -129,7 +132,7 @@ kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=rescaledX, y=Y_train)
 
-print('最优：%s 使用%s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优：{grid_result.best_score_} 使用{grid_result.best_params_}')
 cv_results = zip(grid_result.cv_results_['mean_test_score'],
                  grid_result.cv_results_['std_test_score'],
                  grid_result.cv_results_['params'])
@@ -139,15 +142,17 @@ for mean, std, param in cv_results:
 # 调参改进算法 - SVM
 scaler = StandardScaler().fit(X_train)
 rescaledX = scaler.transform(X_train).astype(float)
-param_grid = {}
-param_grid['C'] = [0.1, 0.3, 0.5, 0.7, 0.9, 1.0, 1.3, 1.5, 1.7, 2.0]
-param_grid['kernel'] = ['linear', 'poly', 'rbf', 'sigmoid']
+param_grid = {
+    'C': [0.1, 0.3, 0.5, 0.7, 0.9, 1.0, 1.3, 1.5, 1.7, 2.0],
+    'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
+}
+
 model = SVC()
 kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=rescaledX, y=Y_train)
 
-print('最优：%s 使用%s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优：{grid_result.best_score_} 使用{grid_result.best_params_}')
 cv_results = zip(grid_result.cv_results_['mean_test_score'],
                  grid_result.cv_results_['std_test_score'],
                  grid_result.cv_results_['params'])
@@ -156,8 +161,12 @@ for mean, std, param in cv_results:
 
 
 # 集成算法
-ensembles = {}
-ensembles['ScaledAB'] = Pipeline([('Scaler', StandardScaler()), ('AB', AdaBoostClassifier())])
+ensembles = {
+    'ScaledAB': Pipeline(
+        [('Scaler', StandardScaler()), ('AB', AdaBoostClassifier())]
+    )
+}
+
 ensembles['ScaledGBM'] = Pipeline([('Scaler', StandardScaler()), ('GBM', GradientBoostingClassifier())])
 ensembles['ScaledRF'] = Pipeline([('Scaler', StandardScaler()), ('RFR', RandomForestClassifier())])
 ensembles['ScaledET'] = Pipeline([('Scaler', StandardScaler()), ('ETR', ExtraTreesClassifier())])
@@ -185,7 +194,7 @@ model = GradientBoostingClassifier()
 kfold = KFold(n_splits=num_folds, random_state=seed)
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring=scoring, cv=kfold)
 grid_result = grid.fit(X=rescaledX, y=Y_train)
-print('最优：%s 使用%s' % (grid_result.best_score_, grid_result.best_params_))
+print(f'最优：{grid_result.best_score_} 使用{grid_result.best_params_}')
 
 # 模型最终化
 scaler = StandardScaler().fit(X_train)

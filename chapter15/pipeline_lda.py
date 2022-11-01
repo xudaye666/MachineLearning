@@ -15,9 +15,7 @@ Y = array[:, 8]
 num_folds = 10
 seed = 7
 kfold = KFold(n_splits=num_folds, random_state=seed)
-steps = []
-# 创建Pipeline
-steps.append(('Standardize', StandardScaler()))
+steps = [('Standardize', StandardScaler())]
 steps.append(('lda', LinearDiscriminantAnalysis()))
 model = Pipeline(steps)
 result = cross_val_score(model, X, Y, cv=kfold)

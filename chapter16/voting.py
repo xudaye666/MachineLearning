@@ -17,9 +17,8 @@ num_folds = 10
 seed = 7
 kfold = KFold(n_splits=num_folds, random_state=seed)
 cart = DecisionTreeClassifier()
-models = []
 model_logistic = LogisticRegression()
-models.append(('logistic', model_logistic))
+models = [('logistic', model_logistic)]
 model_cart = DecisionTreeClassifier()
 models.append(('cart', model_cart))
 model_svc = SVC()

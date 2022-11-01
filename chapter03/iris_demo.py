@@ -54,8 +54,7 @@ X_train, X_validation, Y_train, Y_validation = \
     train_test_split(X, Y, test_size=validation_size, random_state=seed)
 
 # 算法审查
-models = {}
-models['LR'] = LogisticRegression()
+models = {'LR': LogisticRegression()}
 models['LDA'] = LinearDiscriminantAnalysis()
 models['KNN'] = KNeighborsClassifier()
 models['CART'] = DecisionTreeClassifier()
